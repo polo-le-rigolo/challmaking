@@ -5,7 +5,7 @@
 Ce challenge est un challenge en trois étapes, conçu dans le cadre de la 10ème édition du CTF
 interiut organisé conjointement par HACK2G2 et l'ENSIBS. Le but final du challenge est d’accéder au contenu d'un coffre-fort connecté situé sur la table des admins.
 
-![Coffre connecté](/challmaking/interiut2025/ESPionnage/img/coffre.jpg)
+![Coffre connecté](img/coffre.jpg)
 
 ## Sommaire du writeup
 1. [ESPionnage 1/3](#ESPionnage_1)
@@ -22,12 +22,12 @@ Pour cette première phase, vous interceptez une transmission sur le réseau san
 
 En ouvrant la capture avec Wireshark on remarque directement un `GET http://eddymalou.fr:8080/firmware.elf`. Malheureusement, en exportant les objets http de la capture on se rend vite compte que le firmware.elf n'est pas un elf  : 
 
-![Bait firmware](/challmaking/interiut2025/ESPionnage/img/bait_firmware.png)
+![Bait firmware](img/bait_firmware.png)
 
 On en déduit qu'il faut trouver un moyen de télécharger le firmware depuis le serveur. 
 Essayons d'accèder au firmware directement : 
 
-![Access denied](/challmaking/interiut2025/ESPionnage/img/denied.png)
+![Access denied](img/denied.png)
 
 En lisant la documentation (doc.pdf), le fonctionnement de l'OTA est détaillé : 
 
@@ -43,7 +43,7 @@ Après analyse de la capture wireshark, on peut remarquer un échange de message
 
 On peut se connecter au broker avec un client mqtt :
 
-![MQTT Token](/challmaking/interiut2025/ESPionnage/img/mqtt_token.png)
+![MQTT Token](img/mqtt_token.png)
 
 Cette commande permet de subscribe à l'ensemble des topics (grâce à la wildcard "#") et notamment le topic /auth-token sur lequel on voit un token publié de manière périodique et qui change toute les 90 secondes, comme la documentation l'indique.
 
@@ -51,7 +51,7 @@ Maintenant que nous avons un moyen de récupérer un token valide on peut :
 
 curl -H "Cookie: auth_token=LE_TOKEN" http://eddymalou.fr:8080/firmware.elf --output firmware.elf
 
-![MQTT Token](/challmaking/interiut2025/ESPionnage/img/flag_firmware.png)
+![MQTT Token](img/flag_firmware.png)
 
 
 ## ESPionnage_2
@@ -82,7 +82,7 @@ Dans la programmation de microcontrôleurs (comme les arduino ou esp32), deux fo
 
 En examinant la fonction loop décompilée, on tombe sur un bloc de code particulièrement intéressant :
 
-![Loop decompiled](/challmaking/interiut2025/ESPionnage/img/loop_decompiled.png)
+![Loop decompiled](img/loop_decompiled.png)
 
 Analysons de plus près ce code, les serial.println de débug laissés par le développeur facilitent le reverse : 
 
@@ -110,7 +110,7 @@ Le programme lit donc le bloc 4 de la carte NFC, et compare les 8 premiers octet
 
 En double-cliquant sur expectedMifareData dans Ghidra, on accède à l'adresse mémoire contenant cette valeur, ce qui nous permet d’en consulter directement le contenu :
 
-![ExpectedMifareData](/challmaking/interiut2025/ESPionnage/img/expected_mifare_data.png)
+![ExpectedMifareData](img/expected_mifare_data.png)
 
 On valide donc le challenge avec interiut{rickroll}
 
@@ -128,11 +128,11 @@ Le coffre se trouve sur la table des admins, et le flag final se trouve à l’i
 La carte NFC fournie à chaque équipe est une carte MIFARE Classic 1K. Ces cartes utilisent des clés A/B pour contrôler l'accès en lecture/écriture à chaque secteur. Or, la majorité de ces cartes utilisent des clés par défaut et sont donc vulnérables à des attaques de clonage ou de modification, ce qui est justement intéressant ici.
 Par ailleurs dans le binaire on trouve également une valeur intéressante : 
 
-![Default Key](/challmaking/interiut2025/ESPionnage/img/default_key.png)
+![Default Key](img/default_key.png)
 
 Il s'agit d'une des valeurs par défaut les plus courantes utilisées pour les clés A/B sur les cartes MIFARE Classic.
 Grâce à un téléphone Android doté d'une puce NFC, on peut utiliser l'application Mifare Classic Tool pour lire et modifier la carte : 
-![Blank card](/challmaking/interiut2025/ESPionnage/img/secteurs.png)
+![Blank card](img/secteurs.png)
 
 Une MIFARE Classic 1K est divisée en 16 secteurs et chaque secteur contient 4 blocs, chaque bloc contient 16 octets. Donc au total : 16 secteurs × 4 blocs × 16 octets = 1024 octets (1 Ko)
 
@@ -146,6 +146,6 @@ Le secteur 0 est généralement non modifiable car il contient l’UID de la car
 Il suffit donc de modifier les 8 premiers octets du premier bloc du secteur 1 en rajoutant l'hexa de "rickroll"
 "72 69 63 6B 72 6F 6C 6C" en ASCII -> rickroll
 
-![Rickroll](/challmaking/interiut2025/ESPionnage/img/rickroll.png)
+![Rickroll](img/rickroll.png)
 
 Ensuite il suffit de cliquer sur les 3 points en haut à droite puis "écrire dump" et c'est bon la carte est maintenant modifiée. On se rend à la table d'admin pour parler à Philippe_Katerine et tester notre carte sur le coffre..
