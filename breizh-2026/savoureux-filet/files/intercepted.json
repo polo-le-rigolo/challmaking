@@ -1,0 +1,55 @@
+{
+  "description": "Longfast interception",
+  "psk_provided": false,
+  "packets": [
+    {
+      "from": 2896873828,
+      "to": 4294967295,
+      "id": 3325453946,
+      "portnum": "TEXT_MESSAGE_APP",
+      "payload": "au8PEM2BIGcwxSqBng1mmvtMcbC0aSgje7PgLcH9QhjD"
+    },
+    {
+      "from": 2896873828,
+      "to": 4294967295,
+      "id": 3325453947,
+      "portnum": "TEXT_MESSAGE_APP",
+      "payload": "eCSBLCB3oo21ddUa7Ua0vgKtbPeUDuGZBk4NNva/lgBmWBWHfynQidS+0GN1AE2ToXw2"
+    },
+    {
+      "from": 2896873828,
+      "to": 4294967295,
+      "id": 3325453948,
+      "portnum": "TEXT_MESSAGE_APP",
+      "payload": "SZarLpXsq2WxJaWt2YPW2dhKMjbOqST9NaZFTdFdI30lxVNx"
+    },
+    {
+      "from": 2896873828,
+      "to": 4294967295,
+      "id": 3325453949,
+      "portnum": "TEXT_MESSAGE_APP",
+      "payload": "bwkw5oje5tWeiBX0E7s="
+    },
+    {
+      "from": 2896873828,
+      "to": 4294967295,
+      "id": 3325453950,
+      "portnum": "TEXT_MESSAGE_APP",
+      "payload": "yeDjEij6PemI3HY="
+    },
+    {
+      "from": 2896873828,
+      "to": 4294967295,
+      "id": 3325453951,
+      "portnum": "TEXT_MESSAGE_APP",
+      "payload": "f9qv2weffTPZAM0IroE7O0xD"
+    },
+    {
+      "from": 2896873828,
+      "to": 4294967295,
+      "id": 3325453952,
+      "portnum": "TEXT_MESSAGE_APP",
+      "payload": "UWbGGhxECgrSqfNFHkDwa/eemu9ymH96CV3rEIM0F4w4"
+    }
+  ]
+}

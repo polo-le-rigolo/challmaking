@@ -1,0 +1,51 @@
+name: "Glitch Better Have My Money [2/3]"
+author: "Philippe_Katerine"
+category: Hardware
+description: |-
+    ![uart](https://media.tenor.com/Tu2DTygIOhAAAAAd/flipper-zero-gpio-gpio-flipper.gif)
+
+    Malheureusement, le debug UART semble désactivé par le firmware lors du boot.
+    Votre objectif est de glitcher le CPU de la caméra pour obtenir un accès UART.
+    Attention, la réussite du glitch est parfois perturbée par des phénomènes physique (ainsi, des répétitions peuvent-être nécessaires).
+
+    > Note : Une fois le glitch réussi, utilisez le port `1337/TCP` de l'instance pour accéder à l'UART.
+
+    Auteur : [Philippe_Katerine](https://discord.com/users/403981878647980032)
+
+attribution: 'Auteur : [Philippe_Katerine](https://discord.com/users/403981878647980032)'
+
+files:
+    - files/instructions_gbhmm2.txt
+
+flags:
+    - BZHCTF{F@ult_1nj3cti0n_1s_s0_fUn}
+
+# Les tags sont visisbles par les joueurs et peuvent donner une idée du thème du challenge
+# Il doit y avoir au moins un tag annoncant la difficulté (Très Facile/Facile/Moyen/Difficile/Très Difficile)
+tags:
+    - Moyen
+    - Glitching
+    - Fault Injection
+
+# Les topics ne sont visibles que par les admins uniquement
+topics:
+    - Voltage glitching
+
+
+## Éviter de toucher à ce qui est en dessous ##
+
+# Valeur maximale du challenge en points
+value: 500
+type: ctfkit
+state: visible
+extra:
+    initial: 500
+    decay: 100
+    minimum: 50
+
+    # Pour les challenge à la demande uniquement
+    # À remplir par un sysadmin
+    template_name: gbhmm-2
+
+
+version: "0.1"

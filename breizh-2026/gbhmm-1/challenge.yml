@@ -1,0 +1,52 @@
+name: "Glitch Better Have My Money [1/3]"
+author: "Philippe_Katerine"
+category: Hardware
+description: |-
+    Une caméra connectée semble avoir été infectée par un virus qui a pris le contrôle de l'appareil et communique avec un serveur contrôlé par les pirates.
+    Pour obtenir votre premier flag vous devrez répondre aux questions suivantes en vous aidant de la Datasheet fournie :
+
+    - Quel est le nom du protocole de communication utilisé par la puce mémoire pour communiquer avec le CPU ? (en majuscule)
+    - Quelle est la capacité de stockage de la puce ? (en MB)
+    - Quel est le numéro du pinout correspondant à la masse ?
+    - Lorsque la protection d'écriture est activée, quelle est la plus petite quantité de mémoire qui peut être protégée ? (en KB)
+
+    Format du flag : `BZHCTF{UART_32_6_16}`
+
+    Auteur : [Philippe_Katerine](https://discord.com/users/403981878647980032)
+
+attribution: 'Auteur : [Philippe_Katerine](https://discord.com/users/403981878647980032)'
+
+# Liste des fichiers à fournirs aux joueurs
+files:
+    - files/reverse_hardware_camera_side.png
+    - files/reverse_hardware_sd_side.png
+    - files/XM25QH64C.pdf
+flags:
+    - BZHCTF{SPI_8_4_4}
+
+# Les tags sont visisbles par les joueurs et peuvent donner une idée du thème du challenge
+# Il doit y avoir au moins un tag annoncant la difficulté (Très Facile/Facile/Moyen/Difficile/Très Difficile)
+tags:
+    - Très Facile
+    - PCB
+    - Datasheet
+
+## Éviter de toucher à ce qui est en dessous ##
+
+# Valeur maximale du challenge en points
+value: 500
+type: dynamic
+state: visible
+extra:
+    initial: 500
+    decay: 100
+    minimum: 50
+
+    # Pour les challenge à la demande uniquement
+    # À remplir par un sysadmin
+    # template_name: exemple-tcp
+
+# Pour les challenge communs uniquement
+# À remplir par un sysadmin
+
+version: "0.1"

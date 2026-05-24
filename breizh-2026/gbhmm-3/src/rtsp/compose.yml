@@ -1,0 +1,9 @@
+services:
+  rtsp-poc:
+    build: .
+    container_name: rtsp-poc
+    restart: unless-stopped
+
+    ports:
+      - "443:443"
+      - "8554:8554"

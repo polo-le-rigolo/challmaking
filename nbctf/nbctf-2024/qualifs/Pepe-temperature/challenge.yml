@@ -1,0 +1,38 @@
+# Required sections
+name: "Pepe's temperature"
+author: "Philippe_Katerine"
+category: "Misc"
+
+# Markdown friendly
+description: |-
+    Aidez Pepe en changeant la température, il vous remerciera peut-être en vous offrant un cadeau !
+
+    Format du flag : `NBCTF{...}`
+
+    Auteur : [Philippe_Katerine](https://github.com/polo-le-rigolo)
+
+# Do not touch
+value: 500
+type: dynamic
+extra:
+  initial: 500
+  decay: 30
+  minimum: 100
+
+connection_info: https://deploy.nobrackets.fr/
+
+flags:
+    - NBCTF{MQ77_S0_3ASY}
+
+tags:
+    - web
+    - Moyen
+    - mqtt
+    - iot
+
+files:
+    - dist/sources.zip
+
+state: visible
+# Subject to change until ctfcli v1.0.0
+version: "0.1"

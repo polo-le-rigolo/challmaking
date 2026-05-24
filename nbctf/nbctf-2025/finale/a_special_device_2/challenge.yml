@@ -1,0 +1,56 @@
+name: "A special device 2/3"
+author: "Philippe_Katerine"
+
+category: "Hardware"
+
+# Markdown friendly
+description: |-
+    Maintenant que vous savez comment brancher une puce SPI et un adaptateur USB-TTL pour intéragir avec un device via un shell uart, corsons un peu les choses. 
+    Le device est à présent protégé par un mdp, mais le développeur est vraiment nul et utilise micropython pour programmer son device.. cela ne devrait pas être très compliqué à reverser. 
+    Grâce à esptool, vous avez obtenu un dump de la mémoire flash du device : à vous de jouer pour récuperer le flag! 
+
+    Auteur : Philippe_Katerine
+
+# Do not touch
+value: 500
+type: dynamic
+extra:
+  initial: 500
+  decay: 6
+  minimum: 100
+
+flags:
+    - NBCTF{m1cr0py7h0n_5uck5!}
+
+# Difficulties: Introduction; Facile; Moyen; Difficile; Démon
+tags:
+    - Facile
+
+# Facile mais sans GPT : moyen/difficile
+# donc dur de définir la difficulté, peut être plus un chall pour la finale ?
+
+# Can be removed if unused
+files:
+    - dist/firmware_dump.bin
+
+requirements:
+    - "A special device 1/3"
+    
+# Can be removed if unused
+# hints:
+#     - {
+#         content: "This hint costs points",
+#         cost: 10
+#     }
+#     - This hint is free
+
+# # Can be removed if unused
+
+connection_info: deploy
+
+# visible | hidden
+state: visible
+
+# Specifies what version of the challenge specification was used.
+# Subject to change until ctfcli v1.0.0
+version: "0.1"

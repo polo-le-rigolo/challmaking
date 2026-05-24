@@ -1,0 +1,53 @@
+# Required sections
+name: coffre BLEu
+author: Philippe_Katerine
+# Cryptanalyse ; Forensic ; Hardware ; Misc ; Osint ; Pwn ; Reverse ; Steganographie ; Web
+category: Misc
+
+# Markdown friendly
+description: |-
+  Votre tâche est simple : vous devrez scanner, interagir et découvrir le secret du coffre BLEu.
+  Armez-vous d'un équipement compatible BLE (votre ordinateur, votre téléphone portable...). 
+
+  Attention, il n'y a qu'un seul device pour toutes les équipes !
+  Une fois que vous avez maîtrisé la documentation (ou si vous êtes déjà un crack du BLE), venez voir Philippe_Katerine (envoyez un ping sur Discord) pour commencer le challenge. Vous aurez alors 20 minutes pour accéder au secret du coffre.
+
+  Si, après ces 20 minutes, vous n'avez pas réussi à obtenir le flag, et pour assurer l'équité entre les équipes, nous ferons tourner le challenge. Vous pourrez réessayer, mais uniquement quand votre tour viendra !"
+
+
+  Format du flag : `NBCTF{flag}`
+
+  Auteur : [Philippe_Katerine](https://github.com/polo-le-rigolo)
+
+# Do not touch
+value: 500
+type: dynamic
+extra:
+  initial: 500
+  decay: 5
+  minimum: 100
+
+# Si vous avez besoin d'un service en ligne, placer un Dockerfile dans le dossier 'infra'
+# Sinon, supprimer le dossier 'infra' et la ligne 'connection_info'
+# nc challenges.nobrackets.fr <port> | http://challenges.nobrackets.fr:<port> | https://deploy.nobrackets.fr (if one instance per team)
+
+flags:
+    - NBCTF{W0w_y0uR_@_BL3_pR0}
+
+# 1er tag (difficulté) : Introduction; Facile; Moyen; Difficile
+# autres tags : indices
+tags:
+    - Moyen
+    - Misc
+    - IoT
+    - Bluetooth
+    
+# Supprimer 'files' si aucun fichier à mettre sur le CTFd
+files:
+    - dist/ble_introduction.md
+# visible | hidden
+state: visible
+
+# Specifies what version of the challenge specification was used.
+# Subject to change until ctfcli v1.0.0
+version: "0.1"

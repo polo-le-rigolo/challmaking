@@ -1,0 +1,57 @@
+name: "Savoureux Filet"
+author: "Philippe_Katerine"
+category: Hardware
+description: |-
+    ![cow](https://media.tenor.com/7u10b5syw6YAAAAd/cow.gif)
+
+    Une étrange communication a été interceptée sur un petit appareil comportant l'inscription *Filet Savoureux*.
+    Nos experts ne sont pas familiers avec cette technologie, jetez un oeil au traffic intercepté et déchiffrer les messages pour obtenir le flag !
+
+    Format du flag : `BZHCTF{MOT1_MOT2_MOT3}`
+
+    Auteur : [Philippe_Katerine](https://discord.com/users/403981878647980032)
+
+attribution: 'Auteur : [Philippe_Katerine](https://discord.com/users/403981878647980032)'
+
+
+files:
+    - files/intercepted.json
+
+flags:
+    - type: "static"
+      content: "BZHCTF{MESHTASTIC_DEFAULT_KEY_IS_NOT_SECURE}"
+      data: "case_insensitive"
+
+# Dépendence avec d'autres challenges
+# requirements: []
+
+# Les tags sont visisbles par les joueurs et peuvent donner une idée du thème du challenge
+# Il doit y avoir au moins un tag annoncant la difficulté (Très Facile/Facile/Moyen/Difficile/Très Difficile)
+tags:
+    - Facile
+    - Radio
+    - Protocole
+
+# Les topics ne sont visibles que par les admins uniquement
+topics:
+    - Meshtastic
+
+## Éviter de toucher à ce qui est en dessous ##
+
+# Valeur maximale du challenge en points
+value: 500
+type: dynamic
+state: visible
+extra:
+    initial: 500
+    decay: 100
+    minimum: 50
+
+    # Pour les challenge à la demande uniquement
+    # À remplir par un sysadmin
+    # template_name: exemple-tcp
+
+# Pour les challenge communs uniquement
+# À remplir par un sysadmin
+
+version: "0.1"

@@ -1,0 +1,63 @@
+name: "Zzz Zzz Zzz"
+author: "Philippe_Katerine"
+category: Hardware
+description: |-
+    ![jour-nuit](https://media.tenor.com/zn-7vRPZu8EAAAAC/jour-nuit.gif)
+
+    L'ampoule connectée de ma chambre se met à changer de luminosité toute seule depuis que j'ai fait la mise à jour du firmware.
+
+    Je suis peut-être fou… mais j'ai l'impression que l'ampoule essaie de me parler.
+
+    J'ai fait une capture du réseau domotique : aidez-moi à la déchiffrer et à décoder le message caché pour obtenir le flag.
+
+    > Nos informateurs rapportent que la **fin du flag est tronquée et fini par `Encoding}`**.
+
+    Auteur : [Philippe_Katerine](https://discord.com/users/403981878647980032)
+
+attribution: 'Auteur : [Philippe_Katerine](https://discord.com/users/403981878647980032)'
+
+
+flags:
+    - BZHCTF{Strange_Encoding_Zzz}
+    - BZHCTF{Strange_Encoding}
+    - BZHCTF{Strange_Enc}
+    - BZHCTF{Strange_Enc
+
+
+# Dépendence avec d'autres challenges
+# requirements: []
+
+# Les tags sont visisbles par les joueurs et peuvent donner une idée du thème du challenge
+# Il doit y avoir au moins un tag annoncant la difficulté (Très Facile/Facile/Moyen/Difficile/Très Difficile)
+tags:
+    - Moyen
+    - Radio
+
+files:
+    - files/zzz_zzz_zzz.pcapng
+
+# Les topics ne sont visibles que par les admins uniquement
+topics:
+    - Zigbee
+
+
+## Éviter de toucher à ce qui est en dessous ##
+
+# Valeur maximale du challenge en points
+value: 500
+type: dynamic
+state: visible
+extra:
+    initial: 500
+    decay: 100
+    minimum: 50
+
+    # Pour les challenge à la demande uniquement
+    # À remplir par un sysadmin
+    # template_name: exemple-tcp
+
+# Pour les challenge communs uniquement
+# À remplir par un sysadmin
+# connection_info: nc exemple-tcp.chall.ctf.bzh 1337
+
+version: "0.1"

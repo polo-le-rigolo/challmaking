@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Glitch Better Have My Money 2/3</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #desk {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #deskImg {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+
+        .zone {
+            position: absolute;
+            z-index: 10;
+            cursor: pointer;
+            border: 2px solid blue;
+            background: rgba(0, 0, 255, 0.2);
+        }
+
+        #laptop {
+            top: 48.45%;
+            left: 60.84%;
+            width: 22.1%;
+            height: 25.94%;
+        }
+
+        #pcb {
+            top: 63.54%;
+            left: 48.27%;
+            width: 5%;
+            height: 5%;
+        }
+
+        #multimeter {
+            top: 77.0%;
+            left: 14.89%;
+            width: 8%;
+            height: 10%;
+        }
+
+        .panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            max-height: 80%;
+            background: rgba(0, 0, 0, 0.95);
+            color: lime;
+            display: none;
+            padding: 15px;
+            border: 1px solid #444;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        select,
+        button {
+            background: black;
+            color: lime;
+            border: 1px solid #444;
+            margin: 5px;
+        }
+
+        pre {
+            background: black;
+            color: lime;
+            height: 200px;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="desk" onclick="closePanels()">
+        <img id="deskImg" src="/static/desk_lab.png">
+
+        <div id="laptop" class="zone" onclick="event.stopPropagation(); openPanel('infoPanel')"></div>
+        <div id="pcb" class="zone" onclick="event.stopPropagation(); openPanel('wiringPanel')"></div>
+        <div id="multimeter" class="zone" onclick="event.stopPropagation(); openPanel('meterPanel')"></div>
+    </div>
+
+    <div id="infoPanel" class="panel" onclick="event.stopPropagation()">
+        <button onclick="closePanels()" style="float:right">X</button>
+
+        <h3>Glitching instructions</h3>
+
+        <pre>
+1. Connect UART correctly on the PCB
+
+2. Configure the multimeter (figure out what you want/need to mesure for your glitch)
+
+3. Interact with the glitcher via HTTP:
+
+   POST /run_code
+   { "code": "help()" }
+
+   Example:
+   curl -X POST http://challenge-instance:port/run_code \
+        -H "Content-Type: application/json" \
+        -d '{"code":"get_pin_voltage(\"uart_tx\")"}'
+
+  The glitch() function will first cause the device to reboot and glitch the pin at t=delay, t=0 being the boot, for a duration of t=duration.
+  The delta between t=0 and t=glitch (moment where the glitch should happen) is constant.
+  Everything is in ns (both delay and duration). Our experts determined that, past 300ns, the device has already disabled the uart debugging and that the instruction takes less than 15 ns to execute itself.
+
+4. Connect to UART via netcat and let the device boot to get your flag :p
+
+</pre>
+    </div>
+
+    <div id="wiringPanel" class="panel" onclick="event.stopPropagation()">
+        <button onclick="closePanels()" style="float:right">X</button>
+
+        <h3>PCB Wiring</h3>
+
+        RX =>
+        <select id="camera_rx">
+            <option value="none">--</option>
+            <option value="uart_tx">UART TX</option>
+            <option value="uart_rx">UART RX</option>
+        </select><br>
+
+        TX =>
+        <select id="camera_tx">
+            <option value="none">--</option>
+            <option value="uart_tx">UART TX</option>
+            <option value="uart_rx">UART RX</option>
+        </select><br>
+
+        GND =>
+        <select id="gnd">
+            <option value="none">--</option>
+            <option value="gnd">GND</option>
+        </select><br>
+
+        <button onclick="submitWiring()">Apply</button>
+        <pre id="wiringOut"></pre>
+    </div>
+
+    <div id="meterPanel" class="panel" onclick="event.stopPropagation()">
+        <button onclick="closePanels()" style="float:right">X</button>
+
+        <h3>Multimeter</h3>
+
+        Mode:
+        <select id="mode">
+            <option value="voltage">Voltmeter</option>
+        </select><br>
+
+        Red =>
+        <select id="red">
+            <option value="none">--</option>
+            <option value="uart_tx">UART TX</option>
+            <option value="uart_rx">UART RX</option>
+            <option value="vcc">VCC</option>
+            <option value="gnd">GND</option>
+
+        </select><br>
+
+        Black =>
+        <select id="black">
+            <option value="none">--</option>
+            <option value="uart_tx">UART TX</option>
+            <option value="uart_rx">UART RX</option>
+            <option value="vcc">VCC</option>
+            <option value="gnd">GND</option>
+        </select><br>
+
+        <button onclick="submitMeter()">Apply</button>
+        <pre id="meterOut"></pre>
+    </div>
+
+    <script>
+        function openPanel(id) {
+            document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function closePanels() {
+            document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
+        }
+
+        async function submitWiring() {
+            let res = await fetch("/wiring", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    camera_rx: camera_rx.value,
+                    camera_tx: camera_tx.value,
+                    gnd: gnd.value
+                })
+            });
+
+            let data = await res.json();
+            wiringOut.innerText = "Updated !";
+        }
+
+        async function submitMeter() {
+            await fetch("/multimeter", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    mode: mode.value,
+                    red: red.value,
+                    black: black.value
+                })
+            });
+
+            meterOut.innerText = "Multimeter updated !";
+        }
+    </script>
+
+</body>
+
+</html>

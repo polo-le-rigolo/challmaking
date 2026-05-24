@@ -1,0 +1,6 @@
+# Python deps. Also requires system tools: unsquashfs, ffmpeg, tesseract-ocr
+#   apt install squashfs-tools ffmpeg tesseract-ocr
+requests
+jefferson
+pytesseract
+Pillow

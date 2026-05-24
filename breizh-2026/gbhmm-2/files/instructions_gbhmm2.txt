@@ -1,0 +1,14 @@
+# Glitch Better Have My Money [2/3]
+
+Maintenant que nous en savons plus sur le fonctionnement de la caméra grâce à l’analyse de ses composants, essayons de communiquer avec elle grâce aux pins de debugs identifiés.
+
+Malheureusement, le debug UART semble désactivé par le firmware..
+Vous disposez de :
+
+    - un multimètre (web view) pour mesurer des valeurs de voltages
+    - un adaptateur USB-TTL (picocom via nc)
+    - un Glitcher (similaire à un ChipWhisperer) accessible via une API Web
+
+Votre objectif est de provoquer un comportement inattendu lors du boot et d’obtenir un accès UART.
+On considère que le comportement du système est déterministe dans le choix de la fenêtre de glitch car le delta entre t=0 le moment du boot et t=GLITCH est constant. (Le device mets toujours le même temps à booter).
+Mais l'effet du glitch sur le système est probabiliste : une analyse statistique par répétitions peut être nécessaire.

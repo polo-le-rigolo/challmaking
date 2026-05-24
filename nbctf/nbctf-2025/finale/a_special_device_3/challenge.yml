@@ -1,0 +1,59 @@
+name: "A special device 3/3"
+author: "Philippe_Katerine"
+
+category: "Hardware"
+
+# Markdown friendly
+description: |-
+    Vous êtes maintenant en mesure de résoudre le troisième et dernier challenge.
+    Cette fois-ci, le dump est fourni directement : plus besoin de brancher le device.
+
+    Le device semble communiquer sur Internet à l’aide d’un protocole qui vous est inconnu.
+
+    Grâce à ce nouveau dump, essayez de comprendre ce que fait le device afin de reproduire son comportement et de récupérer le flag directement sur Internet. Avec un peu de chance, le serveur contenant le flag est encore en ligne !
+
+    Attention, cette fois-ci vous aurez peut-être besoin de chercher un peu plus loin que dans le simple main.py du MicroPython. Le secret se cache peut-être dans une autre partie du firmware un peu moins volatile... 
+
+    Auteur : Philippe_Katerine
+
+# Do not touch
+value: 500
+type: dynamic
+extra:
+  initial: 500
+  decay: 6
+  minimum: 100
+
+flags:
+    - NBCTF{m1cr0py7h0n_5uck5_b@ddly}
+
+# Difficulties: Introduction; Facile; Moyen; Difficile; Démon
+tags:
+    - Difficile
+
+# Facile mais sans GPT : moyen/difficile
+# donc dur de définir la difficulté, peut être plus un chall pour la finale ?
+
+# Can be removed if unused
+files:
+    - dist/special_device_dump.bin
+
+requirements:
+    - "A special device 2/3"
+    
+# Can be removed if unused
+hints:
+     - {
+         content: "https://espressif.github.io/esp32-c3-book-en/chapter_6/6.4/6.4.1.html | https://github.com/tenable/esp32_image_parser",
+         cost: 50
+     }
+#     - This hint is free
+
+# # Can be removed if unused
+
+# visible | hidden
+state: visible
+
+# Specifies what version of the challenge specification was used.
+# Subject to change until ctfcli v1.0.0
+version: "0.1"

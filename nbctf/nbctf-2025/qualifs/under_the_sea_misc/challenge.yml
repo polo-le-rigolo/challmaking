@@ -1,0 +1,54 @@
+name: "Under the sea 2/2"
+author: "Philippe_Katerine"
+
+category: "Misc"
+
+# Markdown friendly
+description: |-
+    Bravo moussaillon ! Vous avez retrouvé la trace des deux navires explorés par notre plongeur.
+    À présent, analysez l’export de son ordinateur de plongée pour retrouver la profondeur atteinte lorsque son no-decompression limit time était au plus bas ainsi que la température moyenne de l’eau pendant la plongée.
+    Les valeurs doivent être arrondies à deux décimales.
+    Format du flag : NBCTF{<profondeur_min_ndl>_<temperature_moyenne>}
+
+    Auteur : Philippe_Katerine
+
+# Do not touch
+value: 500
+type: dynamic
+extra:
+  initial: 500
+  decay: 30
+  minimum: 100
+
+flags:
+    - NBCTF{20.74_16.21}
+
+# Difficulties: Introduction; Facile; Moyen; Difficile; Démon
+tags:
+    - Facile
+
+# Facile mais sans GPT : moyen/difficile
+# donc dur de définir la difficulté, peut être plus un chall pour la finale ?
+
+# Can be removed if unused
+files:
+    - dist/divelog.xml
+
+# Can be removed if unused
+# hints:
+#     - {
+#         content: "This hint costs points",
+#         cost: 10
+#     }
+#     - This hint is free
+
+# # Can be removed if unused
+requirements:
+     - Under the sea 1/2
+
+# visible | hidden
+state: visible
+
+# Specifies what version of the challenge specification was used.
+# Subject to change until ctfcli v1.0.0
+version: "0.1"

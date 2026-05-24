@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>A special device</title>
+<style>
+  body{font-family:Inter,system-ui,Segoe UI,Arial;margin:0;background:#0f172a;color:#e6eef8}
+  .wrap{display:grid;grid-template-columns:400px 1fr;gap:16px;padding:16px}
+  .card{background:#071029;border-radius:12px;padding:12px;box-shadow:0 6px 24px rgba(2,6,23,.6)}
+  h2{margin:6px 0 12px;font-size:18px}
+  .pinout{display:flex;flex-direction:column;gap:8px}
+  .pin{padding:8px;border-radius:6px;background:#0b2136;cursor:pointer;border:1px solid rgba(255,255,255,.03)}
+  .board{display:flex;gap:12px;flex-wrap:wrap}
+  .terminal{height:440px;background:#020617;border-radius:8px;padding:10px;overflow:auto;font-family:monospace;font-size:13px;white-space: pre-wrap}
+  .controls{display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap}
+  .btn{padding:8px 10px;border-radius:8px;background:#0ea5a4;color:#022;cursor:pointer;border:none}
+  .btn.secondary{background:#64748b;color:#fff}
+  .status{margin-top:8px;font-size:13px}
+  .wire-dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px}
+  .small{font-size:12px;color:#9fb0c8}
+  select{background:#041027;color:#fff;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h2>A special device : 1/3</h2>
+    <div>Branchez correctement les fils entre l’ESP32, la mémoire flash SPI et l’adaptateur USB - UART.  
+    Une fois fait, cliquez sur <b>Power on device</b> pour tester le câblage.</div>
+
+    <div class="board" style="margin-top:10px">
+      <div style="flex:1">
+        <h3>ESP32</h3>
+        <div id="espPins" class="pinout"></div>
+      </div>
+      <div style="flex:1">
+        <h3>SPI Flash</h3>
+        <div id="flashPins" class="pinout"></div>
+      </div>
+      <div style="flex:1">
+        <h3>USB – UART</h3>
+        <div id="usbPins" class="pinout"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:10px" class="small">
+      <div><b>Fils connectés :</b></div>
+      <div id="wiresList"></div>
+    </div>
+
+    <div class="controls">
+      <label class="small">Baud rate :</label>
+      <select id="baud">
+        <option value="9600">9600</option>
+        <option value="57600">57600</option>
+        <option value="115200" selected>115200</option>
+        <option value="921600">921600</option>
+      </select>
+      <button class="btn secondary" id="powerOn">Power on device</button>
+    </div>
+
+    <div class="status" id="status">Status: en attente</div>
+  </div>
+
+  <div class="card">
+    <h2>Terminal UART</h2>
+    <div id="terminal" class="terminal"></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <input id="cmd" type="text" style="flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.06);background:#041027;color:#fff" placeholder="Commande (ex: help)">
+      <button class="btn" id="send">Envoyer</button>
+      <button class="btn secondary" id="clearTerm">Clear</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const espPins = [
+  {id:'3V3',label:'3V3'},
+  {id:'5V',label:'5V'},
+  {id:'GND',label:'GND'},
+  {id:'EN',label:'EN'},
+  {id:'GPIO1',label:'GPIO1'},   // TX0
+  {id:'GPIO3',label:'GPIO3'},   // RX0
+  {id:'GPIO5',label:'GPIO5'},   // CS
+  {id:'GPIO18',label:'GPIO18'}, // SCK
+  {id:'GPIO19',label:'GPIO19'}, // MISO
+  {id:'GPIO23',label:'GPIO23'}  // MOSI
+];
+
+
+const flashPins = [
+  {id:'GND',label:'GND'},
+  {id:'CLK',label:'CLK'},
+  {id:'D0',label:'D0'},
+  {id:'D1',label:'D1'},
+  {id:'CS',label:'CS'}
+];
+const usbPins = [
+  {id:'TX',label:'TX'},
+  {id:'RX',label:'RX'},
+  {id:'GND',label:'GND'}
+];
+
+let connections = [];
+let pick = null;
+
+function renderPins(){
+  const addPins=(list,elId,prefix)=>{
+    const el=document.getElementById(elId); el.innerHTML='';
+    list.forEach(p=>{
+      const d=document.createElement('div');
+      d.className='pin';
+      d.textContent=p.label;
+      d.onclick=()=>pickPin(prefix,p.id);
+      el.appendChild(d);
+    });
+  };
+  addPins(espPins,'espPins','ESP');
+  addPins(flashPins,'flashPins','FLASH');
+  addPins(usbPins,'usbPins','USB');
+}
+
+function pickPin(side,pin){
+  if(!pick){ pick={side,pin}; showStatus(`Sélection: ${side} ${pin}`); return; }
+  if(pick.side===side){ pick=null; showStatus('Sélection annulée'); return; }
+  connections.push({a:`${pick.side}:${pick.pin}`, b:`${side}:${pin}`});
+  pick=null; renderWires(); showStatus('Fils connectés');
+}
+
+function renderWires(){
+  const el=document.getElementById('wiresList'); el.innerHTML='';
+  connections.forEach((w,i)=>{
+    const div=document.createElement('div');
+    div.innerHTML=`<span class="wire-dot" style="background:#06b6d4"></span>${w.a} ↔ ${w.b} <button data-i="${i}">x</button>`;
+    el.appendChild(div);
+    div.querySelector('button').onclick=()=>{ connections.splice(i,1); renderWires(); };
+  });
+}
+
+function showStatus(s){ document.getElementById('status').textContent='Status: '+s; }
+
+
+async function simulateBoot(){
+  const baud = document.getElementById('baud').value;
+  const t = document.getElementById('terminal');
+  t.textContent = '';
+  showStatus('Vérification en cours...');
+
+  try {
+    const res = await fetch('/api/power', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ connections, baud })
+    });
+    const data = await res.json();
+    await typeTerminalOutput(data.terminal, 600) || '[Erreur de communication]\n';
+    showStatus(data.status || 'Erreur');
+  } catch (err) {
+    t.textContent += '[ERREUR] Impossible de contacter le backend.\n';
+    showStatus('Backend indisponible');
+  }
+}
+
+async function typeTerminalOutput(text, delay = 800) {
+  const t = document.getElementById('terminal');
+  const lines = text.split('\n');
+  for (const line of lines) {
+    t.textContent += line + '\n';
+    t.scrollTop = t.scrollHeight; 
+    await new Promise(r => setTimeout(r, delay));
+  }
+}
+
+async function sendCommand(){
+  const t = document.getElementById('terminal');
+  const v = document.getElementById('cmd').value.trim();
+  if (!v) return;
+  document.getElementById('cmd').value = '';
+  t.textContent += '\n>> ' + v + '\n';
+
+  try {
+    const res = await fetch('/api/cmd', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ cmd: v })
+    });
+    const data = await res.json();
+    t.textContent += data.output || '[Aucune réponse]\n';
+  } catch (err) {
+    t.textContent += '[ERREUR] Impossible d\'envoyer la commande.\n';
+  }
+}
+
+document.getElementById('powerOn').onclick = simulateBoot;
+document.getElementById('send').onclick = sendCommand;
+document.getElementById('clearTerm').onclick = () => {
+  document.getElementById('terminal').textContent='';
+};
+
+renderPins(); renderWires();
+</script>
+</body>
+</html>
+

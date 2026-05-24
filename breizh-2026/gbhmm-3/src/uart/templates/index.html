@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Glitch Better Have My Money 3/3</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #desk {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #deskImg {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+
+        .zone {
+            position: absolute;
+            z-index: 10;
+            cursor: pointer;
+            border: 2px solid blue;
+            background: rgba(0, 0, 255, 0.2);
+        }
+
+        #laptop {
+            top: 48.45%;
+            left: 60.84%;
+            width: 22.1%;
+            height: 25.94%;
+        }
+
+        #pcb {
+            top: 63.54%;
+            left: 48.27%;
+            width: 5%;
+            height: 5%;
+        }
+
+        .panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            max-height: 80%;
+            background: rgba(0, 0, 0, 0.95);
+            color: lime;
+            display: none;
+            padding: 15px;
+            border: 1px solid #444;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        button {
+            background: black;
+            color: lime;
+            border: 1px solid #444;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        pre {
+            background: black;
+            color: lime;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        #wiringOut {
+            max-height: 150px;
+            overflow: auto;
+        }
+
+        #wireCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="desk" onclick="closePanels()">
+        <img id="deskImg" src="/static/desk_lab.png">
+
+        <div id="laptop" class="zone" onclick="event.stopPropagation(); openPanel('infoPanel')"></div>
+        <div id="pcb" class="zone" onclick="event.stopPropagation(); openPanel('wiringPanel')"></div>
+    </div>
+
+    <div id="infoPanel" class="panel" onclick="event.stopPropagation()">
+        <button onclick="closePanels()" style="float:right">X</button>
+
+        <h3>UART Shell</h3>
+
+        <pre>
+    1. Connect the TTL adapter
+    2. Boot device and connect to nc uart adapter (if nothing shows up when you connect to nc, try wiring the uart correctly and restart your nc)
+    3. Find a way to dump the firmware contained in the SPI Chip
+    4. Locate the backdoor and find your way back to the C2 :p
+        </pre>
+
+    </div>
+
+    <div id="wiringPanel" class="panel" onclick="event.stopPropagation()">
+        <button onclick="closePanels()" style="float:right">X</button>
+
+        <h3>Click to wire the pads</h3>
+
+        <div id="imageContainer" style="position: relative; display: inline-block;">
+            <img id="wiringImage" src="/static/exposed_pads.png" style="max-width:100%; display:block;">
+            <canvas id="wireCanvas"></canvas>
+        </div>
+
+        <button onclick="clearConnections()">Clear Wiring</button>
+        <button onclick="submitConnections()">Update Wiring</button>
+
+        <div id="wiringSummary"></div>
+        <pre id="wiringOut"></pre>
+    </div>
+
+    <script>
+
+        const pads = {
+            device_rx: { x: 0.2238, y: 0.1533 },
+            device_tx: { x: 0.2220, y: 0.2317 },
+            device_gnd: { x: 0.2238, y: 0.3065 },
+
+            adapter_tx: { x: 0.5109, y: 0.1829 },
+            adapter_rx: { x: 0.5055, y: 0.2470 },
+            adapter_gnd: { x: 0.5019, y: 0.2923 },
+
+            spi_1: { x: 0.3638, y: 0.7877 },
+            spi_2: { x: 0.3963, y: 0.8198 },
+            spi_3: { x: 0.4287, y: 0.8555 },
+            spi_4: { x: 0.4595, y: 0.8804 },
+            spi_5: { x: 0.5397, y: 0.5596 },
+            spi_6: { x: 0.5124, y: 0.5275 },
+            spi_7: { x: 0.4817, y: 0.4955 },
+            spi_8: { x: 0.4492, y: 0.4669 },
+        };
+
+        let connections = [];
+        let selectedPad = null;
+
+        const img = document.getElementById("wiringImage");
+        const canvas = document.getElementById("wireCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const summary = document.getElementById("wiringSummary");
+
+        function openPanel(id) {
+            document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            resizeCanvas();
+            drawConnections();
+        }
+
+        function closePanels() {
+            document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
+        }
+
+        function resizeCanvas() {
+            const rect = img.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            canvas.style.width = rect.width + "px";
+            canvas.style.height = rect.height + "px";
+        }
+
+        window.addEventListener("resize", () => {
+            resizeCanvas();
+            drawConnections();
+        });
+
+        img.onload = () => {
+            resizeCanvas();
+            drawConnections();
+        };
+
+        img.addEventListener("click", (e) => {
+            const rect = img.getBoundingClientRect();
+
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const pad = getPadAt(x, y);
+            if (!pad) return;
+
+            if (!selectedPad) {
+                selectedPad = pad;
+            } else {
+                connections.push({ from: selectedPad, to: pad });
+                selectedPad = null;
+
+                drawConnections();
+                updateSummary();
+            }
+        });
+
+        function getPadAt(x, y) {
+            const rect = img.getBoundingClientRect();
+
+            for (let name in pads) {
+                const px = pads[name].x * rect.width;
+                const py = pads[name].y * rect.height;
+
+                const dist = Math.hypot(px - x, py - y);
+                if (dist < 10) return name;
+            }
+            return null;
+        }
+
+        function drawConnections() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const rect = img.getBoundingClientRect();
+
+            connections.forEach(c => {
+                const a = pads[c.from];
+                const b = pads[c.to];
+
+                ctx.beginPath();
+                ctx.moveTo(a.x * rect.width, a.y * rect.height);
+                ctx.lineTo(b.x * rect.width, b.y * rect.height);
+                ctx.strokeStyle = "lime";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+        }
+
+        function updateSummary() {
+            const container = document.getElementById("wiringSummary");
+            container.innerHTML = "";
+
+            if (connections.length === 0) {
+                container.innerText = "No connections yet.";
+                return;
+            }
+
+            connections.forEach((c, i) => {
+                const row = document.createElement("div");
+                row.style.display = "flex";
+                row.style.justifyContent = "space-between";
+                row.style.marginBottom = "5px";
+
+                row.innerHTML = `
+                    <span>${i + 1}. ${c.from} <=> ${c.to}</span>
+                    <button data-index="${i}" style="color:red;">x</button>
+                `;
+
+                container.appendChild(row);
+            });
+
+            container.querySelectorAll("button").forEach(btn => {
+                btn.onclick = (e) => {
+                    const index = parseInt(e.target.dataset.index);
+                    deleteConnection(index);
+                };
+            });
+        }
+
+        function deleteConnection(index) {
+            connections.splice(index, 1);
+            drawConnections();
+            updateSummary();
+        }
+
+        function clearConnections() {
+            connections = [];
+            selectedPad = null;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            updateSummary();
+        }
+
+        async function submitConnections() {
+            const res = await fetch("/wiring", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ connections })
+            });
+
+            const data = await res.json();
+            document.getElementById("wiringOut").innerText =
+                JSON.stringify(data, null, 2);
+        }
+    </script>
+
+</body>
+
+</html>

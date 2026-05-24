@@ -1,0 +1,242 @@
+U-Boot SPL 2013.07-gfc0af3c (Oct 28 2024 - 18:27:53)
+Board info: T23N
+
+apll_freq = 1188000000 
+mpll_freq = 1200000000 
+sdram init start
+DDR clk rate 600000000
+DDR_PAR of eFuse: 00000000 00000000
+sdram init finished
+image entry point: 0x80100000
+
+
+U-Boot 2013.07-gfc0af3c (Oct 28 2024 - 18:27:53)
+
+Board: ISVP (Ingenic XBurst T23 SoC)
+DRAM:  64 MiB
+Top of RAM usable for U-Boot at: 84000000
+Reserving 441k for U-Boot at: 83f90000
+Reserving 32784k for malloc() at: 81f8c000
+Reserving 32 Bytes for Board Info at: 81f8bfe0
+Reserving 124 Bytes for Global Data at: 81f8bf64
+Reserving 128k for boot params() at: 81f6bf64
+Stack Pointer at: 81f6bf48
+Now running in RAM - U-Boot at: 83f90000
+MMC:   msc: 0
+the manufacturer 20
+SF: Detected XM25QH64C
+
+In:    serial
+Out:   serial
+Err:   serial
+Net:   ====>PHY not found!Jz4775-9161
+the manufacturer 20
+SF: Detected XM25QH64C
+
+--->probe spend 4 ms
+SF: 1703936 bytes @ 0x48000 Read: OK
+--->read spend 548 ms
+## Booting kernel from Legacy Image at 80600000 ...
+   Image Name:   Linux-3.10.14__isvp_pike_1.0__
+   Image Type:   MIPS Linux Kernel Image (lzma compressed)
+   Data Size:    1655284 Bytes = 1.6 MiB
+   Load Address: 80010000
+   Entry Point:  803889d0
+   Verifying Checksum ... OK
+   Uncompressing Kernel Image ... OK
+
+Starting kernel ...
+
+[    0.000000] Initializing cgroup subsys cpu
+[    0.000000] Initializing cgroup subsys cpuacct
+[    0.000000] Linux version 3.10.14__isvp_pike_1.0__ (ubuntu@ubuntu) (gcc version 5.4.0 (Ingenic Ingenic r3.3.0-gcc540 Smaller Size 2023.05-22) ) #23 PREEMPT Mon Aug 12 07:41:50 UTC 2024
+[    0.000000] bootconsole [early0] enabled
+[    0.000000] CPU0 RESET ERROR PC:000D0034
+[    0.000000] CPU0 revision is: 00d00100 (Ingenic Xburst)
+[    0.000000] FPU revision is: 00b70000
+[    0.000000] cgu_vpu clk should be opened!
+[    0.000000] CCLK:1188MHz L2CLK:594Mhz H0CLK:200MHz H2CLK:200Mhz PCLK:100Mhz
+[    0.000000] Determined physical RAM map:
+[    0.000000]  memory: 0049c000 @ 00010000 (usable)
+[    0.000000]  memory: 00034000 @ 004ac000 (usable after init)
+[    0.000000] User-defined physical RAM map:
+[    0.000000]  memory: 02e00000 @ 00000000 (usable)
+[    0.000000] Zone ranges:
+[    0.000000]   Normal   [mem 0x00000000-0x02dfffff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x00000000-0x02dfffff]
+[    0.000000] Primary instruction cache 16kB, 8-way, VIPT, linesize 32 bytes.
+[    0.000000] Primary data cache 16kB, 8-way, VIPT, no aliases, linesize 32 bytes
+[    0.000000] pls check processor_id[0x00d00100],sc_jz not support!
+[    0.000000] MIPS secondary cache 64kB, 8-way, linesize 32 bytes.
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping off.  Total pages: 11684
+[    0.000000] Kernel command line: console=ttyS1,115200n8 mem=46M@0x0 rmem=18M@0x2e00000 init=/linuxrc rootfstype=squashfs root=/dev/mtdblock5 rw mtdparts=jz_sfc:256k(UBT),32k@224k(ENV),32k
+@0x40000(N/A),32k@0x40000(N/A),1664k(K),1024k(RT),256k(CFG),4960k(USR),8m@0(SFC)
+[    0.000000] PID hash table entries: 256 (order: -2, 1024 bytes)
+[    0.000000] Dentry cache hash table entries: 8192 (order: 3, 32768 bytes)
+[    0.000000] Inode-cache hash table entries: 4096 (order: 2, 16384 bytes)
+[    0.000000] Memory: 41112k/47104k available (3586k kernel code, 5992k reserved, 1129k data, 208k init, 0k highmem)
+[    0.000000] SLUB: HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+[    0.000000] Preemptible hierarchical RCU implementation.
+[    0.000000] NR_IRQS:347
+[    0.000000] clockevents_config_and_register success.
+[    0.000020] Calibrating delay loop... 1185.38 BogoMIPS (lpj=5926912)
+[    0.087809] pid_max: default: 32768 minimum: 301
+[    0.092703] Mount-cache hash table entries: 512
+[    0.097740] Initializing cgroup subsys debug
+[    0.101997] Initializing cgroup subsys freezer
+[    0.108783] regulator-dummy: no parameters
+[    0.113020] NET: Registered protocol family 16
+[    0.129198] bio: create slab <bio-0> at 0
+[    0.135332] jz-dma jz-dma: JZ SoC DMA initialized
+[    0.140326] usbcore: registered new interface driver usbfs
+[    0.145950] usbcore: registered new interface driver hub
+[    0.151380] usbcore: registered new device driver usb
+[    0.156627]  (null): set:249  hold:250 dev=100000000 h=500 l=500
+[    0.162763]  (null): set:61  hold:62 dev=100000000 h=125 l=125
+[    0.170492] Switching to clocksource jz_clocksource
+[    0.175444] cfg80211: Calling CRDA to update world regulatory domain
+[    0.182456] NET: Registered protocol family 2
+[    0.187364] TCP established hash table entries: 512 (order: 0, 4096 bytes)
+[    0.194320] TCP bind hash table entries: 512 (order: -1, 2048 bytes)
+[    0.200719] TCP: Hash tables configured (established 512 bind 512)
+[    0.207058] TCP: reno registered
+[    0.210258] UDP hash table entries: 256 (order: 0, 4096 bytes)
+[    0.216220] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)
+[    0.222765] NET: Registered protocol family 1
+[    0.227414] RPC: Registered named UNIX socket transport module.
+[    0.233410] RPC: Registered udp transport module.
+[    0.238112] RPC: Registered tcp transport module.
+[    0.242896] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    0.249726] freq_udelay_jiffys[0].max_num = 10
+[    0.254196] cpufreq 	udelay 	loops_per_jiffy	
+[    0.258568] 12000	 59867	 59867	
+[    0.261834] 24000	 119735	 119735	
+[    0.265290] 60000	 299338	 299338	
+[    0.268720] 120000	 598677	 598677	
+[    0.272298] 200000	 997796	 997796	
+[    0.275784] 300000	 1496694	 1496694	
+[    0.279492] 600000	 2993389	 2993389	
+[    0.283221] 792000	 3951274	 3951274	
+[    0.286909] 1008000	 5028895	 5028895	
+[    0.290705] 1200000	 5986779	 5986779	
+[    0.299059] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+[    0.305880] jffs2: version 2.2. © 2001-2006 Red Hat, Inc.
+[    0.311724] msgmni has been set to 80
+[    0.317319] io scheduler noop registered
+[    0.321246] io scheduler cfq registered (default)
+[    0.326143] jz-pwm jz-pwm: period_ns:max=2730666,min=42
+[    0.331645] wait stable.[288][cgu_vpu]
+[    0.335444] cgu_vpu can not set to 450000000, will change!!!
+[    0.342632] jz-uart.1: ttyS1 at MMIO 0x10031000 (irq = 58) is a uart1
+[    0.350338] console [ttyS1] enabled, bootconsole disabled
+[    0.350338] console [ttyS1] enabled, bootconsole disabled
+[    0.365531] brd: module loaded
+[    0.370794] loop: module loaded
+[    0.374744] zram: Created 2 device(s) ...
+[    0.378980] logger: created 256K log 'log_main'
+[    0.401952] jz SADC driver registeres over!
+[    0.406729] jz TCU driver register completed
+[    0.411616] the id code = 204017, the flash name is XM25QH64C
+[    0.417609] jz-sfc jz-sfc: sfc use DMA mode
+[    0.421955] jz-sfc jz-sfc: nor flash now use standard mode!
+[    0.427722] JZ SFC Controller for SFC channel 0 driver register
+[    0.433880] 9 cmdlinepart partitions found on MTD device jz_sfc
+[    0.440008] Creating 9 MTD partitions on "jz_sfc":
+[    0.444983] 0x000000000000-0x000000040000 : "UBT"
+[    0.450414] 0x000000038000-0x000000040000 : "ENV"
+[    0.455846] 0x000000040000-0x000000048000 : "N/A"
+[    0.461212] 0x000000040000-0x000000048000 : "N/A"
+[    0.466644] 0x000000048000-0x0000001e8000 : "K"
+[    0.471932] 0x0000001e8000-0x0000002e8000 : "RT"
+[    0.477226] 0x0000002e8000-0x000000328000 : "CFG"
+[    0.482671] 0x000000328000-0x000000800000 : "USR"
+[    0.488075] 0x000000000000-0x000000800000 : "SFC"
+[    0.493520] SPI NOR MTD LOAD OK
+[    0.496828] tun: Universal TUN/TAP device driver, 1.6
+[    0.502102] tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>
+[    0.508624] wait stable.[288][cgu_macphy]
+[    0.512832] Bus Mode Reg after reset: 0x00020101, cnt=0
+[    0.519238] Bus Mode Reg after reset: 0x00020101, cnt=1
+[    0.525656] Bus Mode Reg after reset: 0x00020101, cnt=2
+[    0.532074] Bus Mode Reg after reset: 0x00020101, cnt=3
+[    0.538477] Bus Mode Reg after reset: 0x00020101, cnt=4
+[    0.544892] Bus Mode Reg after reset: 0x00020101, cnt=5
+[    0.551297] Bus Mode Reg after reset: 0x00020101, cnt=6
+[    0.557712] Bus Mode Reg after reset: 0x00020101, cnt=7
+[    0.564128] Bus Mode Reg after reset: 0x00020101, cnt=8
+[    0.570533] Bus Mode Reg after reset: 0x00020101, cnt=9
+[    0.576949] func:jz_mii_bus_probe, synopGMAC_reset failed
+[    0.582560] jz_mii_bus: probe of jz_mii_bus.0 failed with error -1
+[    0.589032] =======>gmacdev = 0x821f0200<================
+[    0.594658] =========>gmacdev->MacBase = 0xb34b0000 DmaBase = 0xb34b1000
+[    0.601598] Bus Mode Reg after reset: 0x00020101, cnt=0
+[    0.608020] Bus Mode Reg after reset: 0x00020101, cnt=1
+[    0.614438] Bus Mode Reg after reset: 0x00020101, cnt=2
+[    0.620842] Bus Mode Reg after reset: 0x00020101, cnt=3
+[    0.627259] Bus Mode Reg after reset: 0x00020101, cnt=4
+[    0.633677] Bus Mode Reg after reset: 0x00020101, cnt=5
+[    0.640082] Bus Mode Reg after reset: 0x00020101, cnt=6
+[    0.646498] Bus Mode Reg after reset: 0x00020101, cnt=7
+[    0.652915] Bus Mode Reg after reset: 0x00020101, cnt=8
+[    0.659320] Bus Mode Reg after reset: 0x00020101, cnt=9
+[    0.665734] func:jz_mac_probe, synopGMAC_reset failed
+[    0.670971] jz_mac: probe of jz_mac.0 failed with error -1
+[    0.676770] usbcore: registered new interface driver zd1201
+[    0.682717] DWC IN OTG MODE
+[    0.686265] dwc2 dwc2: Keep PHY ON
+[    0.689789] dwc2 dwc2: Using Buffer DMA mode
+[    0.694256] dwc2 dwc2: Core Release: 3.00a
+[    0.698544] dwc2 dwc2: DesignWare USB2.0 High-Speed Host Controller
+[    0.705076] dwc2 dwc2: new USB bus registered, assigned bus number 1
+[    0.712473] hub 1-0:1.0: USB hub found
+[    0.716374] hub 1-0:1.0: 1 port detected
+[    0.720561] dwc2 dwc2: DWC2 Host Initialized
+[    0.725137] i2c /dev entries driver
+[    0.729213] cgu_msc0 can not set to 24000000, will change!!!
+[    0.735149] jzmmc_v1.2 jzmmc_v1.2.0: vmmc regulator missing
+[    0.741236] jzmmc_v1.2 jzmmc_v1.2.0: register success!
+[    0.746920] TCP: cubic registered
+[    0.750359] NET: Registered protocol family 17
+[    0.755382] soc_vpu probe success,version:1.0.0-03203fd46d
+[    0.761295] input: gpio-keys as /devices/platform/gpio-keys/input/input0
+[    0.768681] drivers/rtc/hctosys.c: unable to open rtc device (rtc0)
+[    0.779334] VFS: Mounted root (squashfs filesystem) readonly on device 31:5.
+[    0.787052] Freeing unused kernel memory: 208K (804ac000 - 804e0000)
+[    0.798527] dwc2 dwc2: ID PIN CHANGED!
+                                                              
+                     +DO:                                     
+                    7I:,+I,,O?                                
+                     M,::::,ZI                                
+                      D8,:N8                                  
+                       88M=                                   
+                       7:                                     
+                   ,~++ZZ+=:                                  
+             :ZMO?:,,,,,,,,,:~8DNI                            
+            8N?,,,::::::::::::,,:ZMI                          
+         8O::::::::::::::::::::::::,=MI                       
+        N7,::::::::::::::::::::::::::,DZ                      
+      DI,::::::::::::::::::::::::::::::,87                    
+     I8,::::::::::::::::::::::::::::::::,M:                   
+    O?,::::::::::::::::::::::::::::::::::,87                  
+  ,:D,::~~::::::::::::::::::::::::::::::::,D:                 
+   M::,7MMMI,:::::::::::::~NNNI,:::::::::::~N                 
+ ,~D,:=MNNNM78888888888887MNNNM?:::::::::::,D,   ,~           
+ :?8::,MNNNN,,,,,,,,,,,,,,NNNNM~::::::::::::8?  +N8N   ~~,    
+ ~77::::,:,::::::::::::::::,=:,:::::::::::::I7  D,: MM:,,I7~  
+ ~77:::::::::::::::::::::::::::~::::::::::::I7  M,:,M~:::~O+  
+ ,~O,~~~~~::::::::::::::::::::~~~~::::::::::+Z  D~::::,,78    
+   M,::~:::::::::::::::::::::::::::::::::::::D  8~::::8NO~    
+   Z?:::::::::::::::::::::::::::::::::::::::,D: M,:,N?        
+   :N,:::::::::::::::::::::::::::::::::::::::?8:D,,8Z         
+    ,M,:::::::::::::::::::::::::::::::::::::::,,,:M           
+     =M,::::::::::::::::::::::::::::::::::::::::,M:           
+       :MI,,                        ,::::::::,=M~             
+         8N                            ,::::,8M,              
+            +MO=                        +OM7                  
+              ~ZMD8I+:            ~+8ZMM8~                    
+                                                              
+mount all file system...
+mdev is ok......
+starting mdev...

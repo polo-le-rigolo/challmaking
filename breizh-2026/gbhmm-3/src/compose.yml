@@ -1,0 +1,20 @@
+services:
+  rtsp:
+    build:
+      context: ./rtsp
+      dockerfile: rtsp.Dockerfile
+    container_name: gbhmm3-rtsp
+    restart: unless-stopped
+    ports:
+      - "443:443"
+      - "8554:8554"
+
+  uart:
+    build:
+      context: ./uart
+      dockerfile: uart.Dockerfile
+    container_name: gbhmm3-uart
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+      - "1337:1337"

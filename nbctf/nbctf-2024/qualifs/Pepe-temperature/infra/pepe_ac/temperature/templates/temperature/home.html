@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pepe Temperature Control</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+</head>
+<body>
+    <h1>Pepe's Current Temperature: {{ temperature }}°C</h1>
+
+    {% if flag %}
+        <p>Thank you so much, it feels so much better! You deserve this: {{ flag }}</p>
+    {% else %}
+        <p>Adjust the temperature to make Pepe happy!</p>
+    {% endif %}
+    <img src="{% static pepe_image %}" alt="Pepe Image">
+</body>
+</html>
+

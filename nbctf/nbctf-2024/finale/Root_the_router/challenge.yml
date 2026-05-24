@@ -1,0 +1,48 @@
+# Required sections
+name: Root the Router
+author: Philippe_Katerine
+# Cryptanalyse ; Forensic ; Hardware ; Misc ; Osint ; Pwn ; Reverse ; Steganographie ; Web
+category: Hardware
+
+# Markdown friendly
+description: |-
+  Vous avez récemment fait l’acquisition d’un routeur dans le but de le hacker. Après l’avoir démonté, vous réalisez qu’une interface UART est disponible, et en plus, les pins sont clairement étiquetées ! Plein d’enthousiasme, vous soudez des fils et les branchez à votre PC. Mais malheureusement, le shell UART est protégé par un mot de passe...
+
+  En fouillant sur le site du fabricant, vous avez trouvé le firmware du routeur. Peut-être que celui-ci contient des informations utiles pour passer cette étape ? À vous de jouer !
+
+  Format du flag : `NBCTF{flag}`
+
+  Auteur : [Philippe_Katerine](https://github.com/polo-le-rigolo)
+
+# Do not touch
+value: 500
+type: dynamic
+extra:
+  initial: 500
+  decay: 5
+  minimum: 100
+
+# Si vous avez besoin d'un service en ligne, placer un Dockerfile dans le dossier 'infra'
+# Sinon, supprimer le dossier 'infra' et la ligne 'connection_info'
+# nc challenges.nobrackets.fr <port> | http://challenges.nobrackets.fr:<port> | https://deploy.nobrackets.fr (if one instance per team)
+connection_info: nc challenges.nobrackets.fr 12345
+
+flags:
+    - NBCTF{P34NUT_8UTT3r_J311Y_T1M3}
+
+# 1er tag (difficulté) : Introduction; Facile; Moyen; Difficile
+# autres tags : indices
+tags:
+    - Moyen
+    - Hardware
+    
+# Supprimer 'files' si aucun fichier à mettre sur le CTFd
+files:
+    - dist/firmware.bin
+
+# visible | hidden
+state: visible
+
+# Specifies what version of the challenge specification was used.
+# Subject to change until ctfcli v1.0.0
+version: "0.1"

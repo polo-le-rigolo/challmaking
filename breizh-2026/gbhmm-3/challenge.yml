@@ -1,0 +1,51 @@
+name: "Glitch Better Have My Money [3/3]"
+author: "Philippe_Katerine"
+category: Hardware
+description: |-
+    ![hackerman](https://media.tenor.com/-_B1vBfy-00AAAAd/hacker-man-hacker.gif)
+
+    Maintenant que nous avons un accès uart : servez vous en et trouvez un moyen d'obtenir le contenu de cette puce mémoire !
+    Une fois en possession du firmware, à vous de trouver la backdoor et de remonter jusqu'à ces pirates.
+
+    Auteur : [Philippe_Katerine](https://discord.com/users/403981878647980032)
+
+attribution: 'Auteur : [Philippe_Katerine](https://discord.com/users/403981878647980032)'
+
+flags:
+    - BZHCTF{You_Found_The_Backdoor_Congrats_Take_Your_Flag}
+
+# Dépendence avec d'autres challenges
+
+# Les tags sont visisbles par les joueurs et peuvent donner une idée du thème du challenge
+# Il doit y avoir au moins un tag annoncant la difficulté (Très Facile/Facile/Moyen/Difficile/Très Difficile)
+tags:
+    - Difficile
+    - Glitching
+    - Analyse de firmware
+
+# Les topics ne sont visibles que par les admins uniquement
+topics:
+    - Glitching Uboot
+    - Bootloader
+    - Firmware analysis
+
+
+## Éviter de toucher à ce qui est en dessous ##
+
+# Valeur maximale du challenge en points
+value: 500
+type: ctfkit
+state: visible
+extra:
+    initial: 500
+    decay: 100
+    minimum: 50
+
+    # Pour les challenge à la demande uniquement
+    # À remplir par un sysadmin
+    template_name: gbhmm-3
+
+# Pour les challenge communs uniquement
+# À remplir par un sysadmin
+
+version: "0.1"
